@@ -1,0 +1,5 @@
+Steps
+Build UI for searching artists and albums
+Add Cors
+Reshape data responses
+Add auth
