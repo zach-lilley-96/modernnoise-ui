@@ -1,5 +1,7 @@
 Steps
 Build UI for searching artists and albums
-Add Cors
+Add Cors --- done
 Reshape data responses
 Add auth
+
+Make sure to use profiles for envs
