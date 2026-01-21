@@ -22,7 +22,7 @@ export default function SearchArtistForm(){
     }
 
     return (
-        <div>
+        <div className="container mx-auto p-4 text-center">
         <form onSubmit={handleSubmit}>
             <input 
                 type="text" 
