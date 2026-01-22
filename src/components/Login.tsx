@@ -1,7 +1,7 @@
 export default function LoginButton(){
     const login = () => {
     window.location.href =
-      "http://localhost:8080/oauth2/authorization/google";
+      `${import.meta.env.VITE_API_BASE_URI}/oauth2/authorization/google`;
   };
 
   return (
