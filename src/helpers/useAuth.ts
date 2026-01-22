@@ -8,7 +8,7 @@ export function useAuth() {
     const checkAuth = async () => {
       try {
         // This endpoint should return 200 if the HttpOnly cookie is valid
-        const response = await fetch(`${import.meta.env.VITE_API_BASE_URI}/auth/status`, {
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URI}auth/status`, {
           credentials: 'include',
         });
         

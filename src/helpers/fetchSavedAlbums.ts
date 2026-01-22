@@ -1,7 +1,7 @@
 import type {SavedRatingsDto} from "../types/SavedRatingsDto.ts";
 
 export default async function fetchSavedAlbums(artistId: string): Promise<SavedRatingsDto[]> {
-    const response = await fetch(`${import.meta.env.VITE_API_BASE_URI}/rating/my-ratings/${artistId}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URI}rating/my-ratings/${artistId}`, {
         credentials: "include",
     });
     if (!response.ok) {
