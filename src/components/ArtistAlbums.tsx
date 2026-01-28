@@ -114,23 +114,38 @@ export default function ArtistAlbums() {
                                     <p className="text-gray-500">{album.intYearReleased}</p>
                                 </div>
 
-                                <div className="w-full h-58 overflow-hidden">
+                                <div className="relative w-full h-64 overflow-hidden">
                                     <img
                                         src={album.strAlbumThumb}
                                         alt={album.strAlbum}
                                         className="object-cover w-full h-full"
                                     />
+                                    {/* Horizontal Rating Bar - Over the image */}
+                                    <div className="absolute bottom-2 left-0 right-0 flex justify-center z-10">
+                                        <div className="bg-black/40 backdrop-blur-sm rounded-full px-2 py-0.5">
+                                            <StarRating
+                                                value={albumRating}
+                                                onChange={(rating) =>
+                                                    handleRatingChange(album.strMusicBrainzID, rating)
+                                                }
+                                                max={10}
+                                                orientation="horizontal"
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
 
-                                {/* Rating Section */}
-                                <div className="p-4">
-                                    <StarRating
-                                        value={albumRating}
-                                        onChange={(rating) =>
-                                            handleRatingChange(album.strMusicBrainzID, rating)
-                                        }
-                                        max={10}
-                                    />
+                                <div className="p-4 flex flex-col items-center min-h-[4rem] justify-center">
+                                    <div className="group flex items-center justify-center gap-3">
+                                        {albumRating > 0 && (
+                                            <span
+                                                className="text-lg font-bold text-gray-800 bg-white/80 border border-black/10 rounded-full px-4 py-1 shadow-sm transition"
+                                                aria-label={`Selected rating ${albumRating} out of 10`}
+                                            >
+                                                {albumRating} / 10
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         );
