@@ -20,9 +20,7 @@ function App() {
                         <LoginButton/>
                 }/>
                 <Route path="/" element={
-                    <ProtectedRoute>
                     <Home/>
-                    </ProtectedRoute>
                 }/>
                 <Route path="/search" element={
                     <ProtectedRoute>
