@@ -1,0 +1,12 @@
+export default async function addNewFriend(friendCode: string){
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URI}friends`, {
+        method: "POST",
+        body: JSON.stringify({friendCode}),
+        credentials: "include"
+    })
+
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+}
