@@ -5,7 +5,7 @@ export default async function fetchFriends() {
 
         const response = await fetch(`${import.meta.env.VITE_API_BASE_URI}friends/me`, {
             credentials: "include",
-            method: "POST",
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
             },
