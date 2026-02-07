@@ -1,3 +1,5 @@
+import type {SuccessfulFriendSearchResponse} from "../types/SuccessfulFriendSearchResponse.ts";
+
 export default async function fetchUserByFriendCode(friendCode: string) {
     const response = await fetch(`${import.meta.env.VITE_API_BASE_URI}friends/search`, {
         credentials: "include",
@@ -10,5 +12,5 @@ export default async function fetchUserByFriendCode(friendCode: string) {
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
-    return response.json();
+    return await response.json() as SuccessfulFriendSearchResponse;
 }
