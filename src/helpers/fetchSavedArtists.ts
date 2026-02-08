@@ -1,6 +1,10 @@
 export async function fetchSavedArtists(page: number = 0, size: number = 10) {
     const response = await fetch(`${import.meta.env.VITE_API_BASE_URI}rating/artists?page=${page}&size=${size}`, {
         credentials: "include",
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
     });
     if (!response.ok) {
         throw new Error('Network response was not ok');

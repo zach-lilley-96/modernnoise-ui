@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router";
+import {useNavigate, useParams} from "react-router-dom";
 import type {AlbumDto} from "../types/AlbumDto";
 import type {RatingDto} from "../types/RatingDto";
 import {getAlbumsByArtist} from "../helpers/fetchArtist";
