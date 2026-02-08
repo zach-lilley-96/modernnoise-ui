@@ -1,4 +1,4 @@
-import { Navigate } from "react-router"; // Use 'react-router' to match your App.tsx
+import { Navigate } from "react-router-dom"; // Use 'react-router-dom' to match your App.tsx
 import { useAuth } from "../helpers/useAuth";
 import type { JSX, ReactNode } from "react";
 
