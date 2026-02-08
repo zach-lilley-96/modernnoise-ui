@@ -1,15 +1,16 @@
 import {useState} from "react";
 import fetchUserByFriendCode from "../helpers/fetchUserByFriendCode.ts";
 import addNewFriend from "../helpers/addNewFriend.ts";
-import {useNavigate} from "react-router-dom";
 
-export default function FriendCodeInput() {
-    const navigate = useNavigate();
+export default function FriendCodeInput({ onFriendAdded }: { onFriendAdded: () => void }) {
     const [friendCode, setFriendCode] = useState("");
     const [foundDisplayName, setFoundDisplayName] = useState("");
     const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
     async function findUserByFriendCode() {
+        setError(null);
+        setSuccessMessage(null);
         try {
             const data = await fetchUserByFriendCode(friendCode);
             if (data) {
@@ -26,12 +27,14 @@ export default function FriendCodeInput() {
     async function addFriendByFriendCode() {
         try {
             await addNewFriend(friendCode);
-            navigate("/saved-friends");
+            setSuccessMessage(`Successfully added ${foundDisplayName}!`);
+            setFriendCode("");
+            setFoundDisplayName("");
+            onFriendAdded();
         } catch (error) {
             console.error("Error adding friend by friend code:", error);
             setError("Failed to add friend by friend code");
         }
-
     }
 
     return (
@@ -60,6 +63,13 @@ export default function FriendCodeInput() {
                 <p className="mt-3 text-sm text-red-600 flex items-center gap-1">
                     <span className="inline-block w-1 h-1 bg-red-600 rounded-full"></span>
                     {error}
+                </p>
+            )}
+
+            {successMessage && (
+                <p className="mt-3 text-sm text-green-600 flex items-center gap-1">
+                    <span className="inline-block w-1 h-1 bg-green-600 rounded-full"></span>
+                    {successMessage}
                 </p>
             )}
             

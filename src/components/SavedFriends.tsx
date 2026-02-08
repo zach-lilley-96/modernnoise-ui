@@ -11,14 +11,15 @@ export default function SavedFriends(): JSX.Element {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  async function loadFriends() {
+    fetchFriends().then((data) => {
+      setFriends(data);
+    }).catch((error) => {
+      console.error("Error loading friends:", error);
+    });
+  }
+
   useEffect(() => {
-    async function loadFriends() {
-      fetchFriends().then((data) => {
-        setFriends(data);
-      }).catch((error) => {
-        console.error("Error loading friends:", error);
-      });
-    }
     loadFriends();
   }, []);
 
@@ -87,7 +88,7 @@ export default function SavedFriends(): JSX.Element {
           </div>
         </div>
 
-        <FriendCodeInput />
+        <FriendCodeInput onFriendAdded={loadFriends} />
       </div>
 
       <section>
