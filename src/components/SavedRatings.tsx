@@ -5,11 +5,12 @@ import fetchSavedAlbums from "../helpers/fetchSavedAlbums";
 import fetchFriendSavedAlbums from "../helpers/fetchFriendSavedAlbums";
 
 const TIER_CONFIG = [
-    {label: "S", min: 9.5, color: "bg-red-500"},
-    {label: "A", min: 8, color: "bg-orange-400"},
-    {label: "B", min: 6, color: "bg-yellow-400"},
-    {label: "C", min: 4, color: "bg-green-400"},
-    {label: "F", min: 0, color: "bg-blue-400"},
+    {label: "S", min: 9.5, color: "bg-purple-500"},
+    {label: "A", min: 8, color: "bg-green-400"},
+    {label: "B", min: 6, color: "bg-orange-400"},
+    {label: "C", min: 5, color: "bg-blue-400"},
+    {label: "D", min: 3.5, color: "bg-yellow-400"},
+    {label: "F", min: 0, color: "bg-red-400"},
 ];
 
 export default function SavedRatings() {
@@ -37,7 +38,7 @@ export default function SavedRatings() {
 
     const tieredRatings = useMemo(() => {
         const tiers: Record<string, SavedRatingsDto[]> = {
-            S: [], A: [], B: [], C: [], F: []
+            S: [], A: [], B: [], C: [], D: [], F: []
         };
 
         ratings.forEach(rating => {
@@ -45,6 +46,7 @@ export default function SavedRatings() {
             else if (rating.score >= 7.5) tiers.A.push(rating);
             else if (rating.score >= 6) tiers.B.push(rating);
             else if (rating.score >= 5) tiers.C.push(rating);
+            else if (rating.score >= 4) tiers.D.push(rating);
             else tiers.F.push(rating);
         });
 
