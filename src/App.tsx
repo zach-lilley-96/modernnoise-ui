@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes} from 'react-router'
+import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import './App.css'
 import SearchArtistForm from './components/SearchArtistForm'
 import LoginButton from './components/Login'
@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar";
 import SavedFriends from "./components/SavedFriends";
 import Home from "./components/Home";
 import SavedRatings from "./components/SavedRatings.tsx";
+import FriendSavedArtists from "./components/FriendSavedArtists.tsx";
 
 function App() {
 
@@ -39,6 +40,30 @@ function App() {
                 }/>
 
                 <Route path='/my-ratings/:id' element={
+                    <ProtectedRoute>
+                        <SavedRatings/>
+                    </ProtectedRoute>
+                }/>
+
+                <Route path='/friend-ratings/:id' element={
+                    <ProtectedRoute>
+                        <SavedRatings/>
+                    </ProtectedRoute>
+                }/>
+
+                <Route path='/friends/:friendCode/artists/:id' element={
+                    <ProtectedRoute>
+                        <SavedRatings/>
+                    </ProtectedRoute>
+                }/>
+
+                <Route path='/friends/:friendCode/artists' element={
+                    <ProtectedRoute>
+                        <FriendSavedArtists/>
+                    </ProtectedRoute>
+                }/>
+
+                <Route path='/friends/:friendCode/artists/:id' element={
                     <ProtectedRoute>
                         <SavedRatings/>
                     </ProtectedRoute>
