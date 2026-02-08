@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import type {ArtistDto} from "../types/ArtistDto.ts";
 import {Link} from "react-router-dom";
-import fetchFriendSavedArtists from "../helpers/fetchFriendSavedArtists.ts";
 import fetchSavedArtists from "../helpers/fetchSavedArtists.ts";
 
 export default function SavedArtists() {
