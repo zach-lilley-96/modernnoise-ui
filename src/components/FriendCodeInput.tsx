@@ -1,7 +1,7 @@
 import {useState} from "react";
 import fetchUserByFriendCode from "../helpers/fetchUserByFriendCode.ts";
 import addNewFriend from "../helpers/addNewFriend.ts";
-import {useNavigate} from "react-router";
+import {useNavigate} from "react-router-dom";
 
 export default function FriendCodeInput() {
     const navigate = useNavigate();
@@ -50,7 +50,7 @@ export default function FriendCodeInput() {
                 />
                 <button
                     onClick={findUserByFriendCode}
-                    className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors shadow-sm"
+                    className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors shadow-sm"
                 >
                     Search
                 </button>
