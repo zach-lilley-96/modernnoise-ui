@@ -1,8 +1,7 @@
-
-
 import {useEffect, useState} from "react";
 import type {ArtistDto} from "../types/ArtistDto.ts";
-import {Link} from "react-router";
+import {Link} from "react-router-dom";
+import fetchFriendSavedArtists from "../helpers/fetchFriendSavedArtists.ts";
 import fetchSavedArtists from "../helpers/fetchSavedArtists.ts";
 
 export default function SavedArtists() {
@@ -14,15 +13,16 @@ export default function SavedArtists() {
 
     useEffect(() => {
         async function fetchRequest() {
-            fetchSavedArtists(page, pageSize)
-                .then(data => {
-                    setArtists(data.content);
-                    setTotalPages(data.totalPages);
-                })
-                .catch(err => {
-                    console.error("Error fetching saved artists:", err);
-                    setError("Failed to load saved artists.");
-                });
+                fetchSavedArtists(page, pageSize)
+                    .then(data => {
+                        setArtists(data.content);
+                        setTotalPages(data.totalPages);
+                    })
+                    .catch(err => {
+                        console.error("Error fetching saved artists:", err);
+                        setError("Failed to load saved artists.");
+                    });
+
         }
 
         fetchRequest();

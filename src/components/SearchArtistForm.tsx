@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { getArtists } from "../helpers/fetchArtist";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 export default function SearchArtistForm(){
     const [searchTerm, setSearchTerm] = useState("");

@@ -1,4 +1,5 @@
 import { type JSX, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import fetchFriends from '../helpers/fetchFriends';
 import fetchNewFriendCode from '../helpers/fetchNewFriendCode';
 import type { FriendDto } from '../types/FriendDto';
@@ -26,7 +27,7 @@ export default function SavedFriends(): JSX.Element {
     setError(null);
     try {
       const data = await fetchNewFriendCode();
-      setFriendCode(data.friendCode || data.code || JSON.stringify(data));
+      setFriendCode(data.friendCode || data.code);
     } catch (err) {
       console.error("Error fetching friend code:", err);
       setError("Failed to get friend code");
@@ -37,7 +38,7 @@ export default function SavedFriends(): JSX.Element {
   return (
     <div className="container mx-auto p-4 max-w-4xl">
       <header className="mb-12 text-center">
-        <h2 className="text-4xl font-extrabold text-gray-900 mb-2">Saved Friends</h2>
+        <h2 className="text-4xl font-extrabold text-gray-900 mb-2">Friends</h2>
         <p className="text-gray-500">Manage your connections and find new friends</p>
       </header>
 
@@ -100,9 +101,10 @@ export default function SavedFriends(): JSX.Element {
         {friends.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {friends.map((friend) => (
-              <div 
-                key={friend.friendCode} 
-                className="p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md hover:border-indigo-200 transition-all group"
+              <Link
+                key={friend.friendCode}
+                to={`/friends/${friend.friendCode}/artists`}
+                className="p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md hover:border-indigo-200 transition-all group block"
               >
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center font-bold text-xl group-hover:bg-indigo-600 group-hover:text-white transition-colors">
@@ -117,7 +119,7 @@ export default function SavedFriends(): JSX.Element {
                     </p>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         ) : (

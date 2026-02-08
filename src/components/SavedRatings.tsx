@@ -1,7 +1,8 @@
 import {useEffect, useState, useMemo} from "react";
-import {useParams} from "react-router";
+import {useParams} from "react-router-dom";
 import type {SavedRatingsDto} from "../types/SavedRatingsDto";
 import fetchSavedAlbums from "../helpers/fetchSavedAlbums";
+import fetchFriendSavedAlbums from "../helpers/fetchFriendSavedAlbums";
 
 const TIER_CONFIG = [
     {label: "S", min: 9.5, color: "bg-red-500"},
@@ -12,7 +13,7 @@ const TIER_CONFIG = [
 ];
 
 export default function SavedRatings() {
-    const {id} = useParams<{ id: string }>();
+    const {id, friendCode} = useParams<{ id: string, friendCode?: string }>();
     const [ratings, setRatings] = useState<SavedRatingsDto[]>([]);
     const [error, setError] = useState<string | null>(null);
 
@@ -20,7 +21,9 @@ export default function SavedRatings() {
         async function getSavedAlbums() {
             if (id) {
                 try {
-                    const data = await fetchSavedAlbums(id);
+                    const data = friendCode 
+                        ? await fetchFriendSavedAlbums(friendCode, id)
+                        : await fetchSavedAlbums(id);
                     setRatings(data);
                 } catch (error) {
                     setError(`Could not fetch saved albums for artist with ID ${id}.`);
@@ -99,12 +102,13 @@ export default function SavedRatings() {
                 ))}
             </div>
             <div className="flex justify-center mt-8">
-            <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mb-10 rounded focus:outline-none focus:shadow-outline w-96 h-12 text-2xl"
-                onClick={() => window.location.href = `/artist/${id}`}>
-                Edit Ratings
-
-            </button>
+            {!friendCode && (
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mb-10 rounded focus:outline-none focus:shadow-outline w-96 h-12 text-2xl"
+                    onClick={() => window.location.href = `/artist/${id}`}>
+                    Edit Ratings
+                </button>
+            )}
             </div>
         </div>
     );
