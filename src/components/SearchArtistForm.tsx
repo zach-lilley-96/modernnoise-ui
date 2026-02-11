@@ -24,17 +24,17 @@ export default function SearchArtistForm(){
   return (
     <div className="container mx-auto p-4 max-w-3xl">
       <header className="mb-10">
-        <h1 className="text-3xl font-black text-gray-900 mb-2">Search Artists</h1>
-        <p className="text-gray-500">
+        <h1 className="text-3xl font-black text-gray-900 dark:text-slate-100 mb-2">Search Artists</h1>
+        <p className="text-gray-500 dark:text-slate-400">
           Type an artist name and select a result to view albums.
         </p>
       </header>
 
       <form
         onSubmit={handleSubmit}
-        className="flex gap-3 items-center bg-white border border-gray-200 rounded-2xl p-2 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-transparent transition-all"
+        className="flex gap-3 items-center bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-2 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-transparent transition-all"
       >
-        <div className="pl-3 text-gray-400">
+        <div className="pl-3 text-gray-400 dark:text-slate-500">
           <svg viewBox="0 0 24 24" width="20" height="20">
             <path
               fill="currentColor"
@@ -62,39 +62,39 @@ export default function SearchArtistForm(){
       {error && (
         <div
           role="alert"
-          className="mt-4 p-4 rounded-xl border border-red-100 bg-red-50 text-red-700 font-semibold flex items-center gap-2"
+          className="mt-4 p-4 rounded-xl border border-red-100 dark:border-red-900/30 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 font-semibold flex items-center gap-2"
         >
-          <span className="w-1.5 h-1.5 bg-red-600 rounded-full"></span>
+          <span className="w-1.5 h-1.5 bg-red-600 dark:bg-red-500 rounded-full"></span>
           {error}
         </div>
       )}
 
       {artists.length > 0 && (
-        <div className="mt-8 bg-white border border-gray-100 rounded-2xl shadow-xl shadow-gray-100 overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-50 bg-gray-50/50 text-gray-800 font-black flex justify-between items-center">
+        <div className="mt-8 bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-2xl shadow-xl shadow-gray-100 dark:shadow-none overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-50 dark:border-slate-700 bg-gray-50/50 dark:bg-slate-700/50 text-gray-800 dark:text-slate-200 font-black flex justify-between items-center">
             <span>Results</span>
-            <span className="text-sm bg-gray-200 px-2 py-0.5 rounded-full">{artists.length}</span>
+            <span className="text-sm bg-gray-200 dark:bg-slate-600 px-2 py-0.5 rounded-full">{artists.length}</span>
           </div>
 
-          <ul className="divide-y divide-gray-50">
+          <ul className="divide-y divide-gray-50 dark:divide-slate-700">
             {artists.map((artist: any) => (
               <li
                 key={artist.strMusicBrainzID}
                 onClick={() => navigate(`/artist/${artist.strMusicBrainzID}`)}
-                className="cursor-pointer px-6 py-5 flex items-center justify-between gap-4 hover:bg-indigo-50/30 transition-colors group"
+                className="cursor-pointer px-6 py-5 flex items-center justify-between gap-4 hover:bg-indigo-50/30 dark:hover:bg-indigo-900/20 transition-colors group"
               >
                 <div className="min-width-0">
-                  <div className="font-bold text-gray-900 text-lg group-hover:text-indigo-600 transition-colors truncate">
+                  <div className="font-bold text-gray-900 dark:text-slate-100 text-lg group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors truncate">
                     {artist.strArtist}
                   </div>
-                  <div className="text-gray-400 text-sm">
+                  <div className="text-gray-400 dark:text-slate-500 text-sm">
                     {[artist.strGenre, artist.intFormedYear].filter(Boolean).join(" • ")}
                   </div>
                 </div>
 
                 <div
                   aria-hidden="true"
-                  className="text-gray-300 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all"
+                  className="text-gray-300 dark:text-slate-600 group-hover:text-indigo-400 transition-all"
                 >
                   <svg width="24" height="24" viewBox="0 0 24 24">
                     <path

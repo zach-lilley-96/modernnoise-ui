@@ -38,8 +38,8 @@ export default function FriendCodeInput({ onFriendAdded }: { onFriendAdded: () =
     }
 
     return (
-        <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 mb-8">
-            <label htmlFor="friendCode" className="block text-sm font-medium text-gray-700 mb-2">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-md border border-gray-100 dark:border-slate-700 mb-8">
+            <label htmlFor="friendCode" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                 Search Friend Code
             </label>
             <div className="flex gap-2">
@@ -49,35 +49,35 @@ export default function FriendCodeInput({ onFriendAdded }: { onFriendAdded: () =
                     value={friendCode}
                     onChange={(e) => setFriendCode(e.target.value)}
                     placeholder="Enter friend code..."
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                    className="flex-1 px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all bg-transparent dark:text-slate-100"
                 />
                 <button
                     onClick={findUserByFriendCode}
-                    className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors shadow-sm"
+                    className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 active:bg-indigo-800 transition-colors shadow-sm"
                 >
                     Search
                 </button>
             </div>
             
             {error && (
-                <p className="mt-3 text-sm text-red-600 flex items-center gap-1">
-                    <span className="inline-block w-1 h-1 bg-red-600 rounded-full"></span>
+                <p className="mt-3 text-sm text-red-600 dark:text-red-400 flex items-center gap-1">
+                    <span className="inline-block w-1 h-1 bg-red-600 dark:bg-red-500 rounded-full"></span>
                     {error}
                 </p>
             )}
 
             {successMessage && (
-                <p className="mt-3 text-sm text-green-600 flex items-center gap-1">
-                    <span className="inline-block w-1 h-1 bg-green-600 rounded-full"></span>
+                <p className="mt-3 text-sm text-green-600 dark:text-green-400 flex items-center gap-1">
+                    <span className="inline-block w-1 h-1 bg-green-600 dark:bg-green-500 rounded-full"></span>
                     {successMessage}
                 </p>
             )}
             
             {foundDisplayName && (
-                <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100 flex items-center justify-between">
+                <div className="mt-6 p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-100 dark:border-indigo-800/30 flex items-center justify-between">
                     <div>
-                        <p className="text-sm text-blue-600 font-medium">Found user</p>
-                        <p className="text-lg font-bold text-gray-900">{foundDisplayName}</p>
+                        <p className="text-sm text-indigo-600 dark:text-indigo-400 font-medium">Found user</p>
+                        <p className="text-lg font-bold text-gray-900 dark:text-slate-100">{foundDisplayName}</p>
                     </div>
                     <button
                         onClick={addFriendByFriendCode}

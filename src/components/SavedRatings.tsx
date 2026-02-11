@@ -22,7 +22,7 @@ export default function SavedRatings() {
         async function getSavedAlbums() {
             if (id) {
                 try {
-                    const data = friendCode 
+                    const data = friendCode
                         ? await fetchFriendSavedAlbums(friendCode, id)
                         : await fetchSavedAlbums(id);
                     setRatings(data);
@@ -34,7 +34,7 @@ export default function SavedRatings() {
         }
 
         getSavedAlbums();
-    }, [id]);
+    }, [friendCode, id]);
 
     const tieredRatings = useMemo(() => {
         const tiers: Record<string, SavedRatingsDto[]> = {
@@ -71,46 +71,46 @@ export default function SavedRatings() {
 
     return (
         <div className="container mx-auto p-4">
-            <h2 className="text-3xl font-bold mb-8 text-center">{ratings[0].album.strArtist} Ratings</h2>
+            <h2 className="text-3xl font-bold mb-8 text-center text-gray-900 dark:text-slate-100">{ratings[0].displayName}'s {ratings[0].album.strArtist} Ratings</h2>
 
-            <div className="flex flex-col gap-2 bg-gray-900 p-2 rounded-lg">
+            <div className="flex flex-col gap-2 bg-slate-950/40 p-2 rounded-lg border border-slate-800/50 shadow-inner">
                 {TIER_CONFIG.map((tier) => (
-                    <div key={tier.label} className="flex min-h-30 bg-gray-800 rounded-sm overflow-hidden">
+                    <div key={tier.label} className="flex min-h-30 bg-slate-800/80 rounded-sm overflow-hidden border border-slate-700/30">
                         <div
-                            className={`w-24 shrink-0 flex items-center justify-center text-4xl font-bold text-black ${tier.color}`}>
+                            className={`w-24 shrink-0 flex items-center justify-center text-4xl font-bold text-black/80 ${tier.color}`}>
                             {tier.label}
                         </div>
                         <div className="grow p-2 flex flex-wrap gap-4 items-center">
                             {tieredRatings[tier.label].map((rating) => (
                                 <div key={rating.album.strMusicBrainzID}
-                                     className="group relative w-20 h-20 shadow-lg hover:scale-110 transition-transform duration-200">
+                                     className="group relative w-20 h-20 shadow-lg hover:scale-110 transition-transform duration-200 ring-1 ring-black/5">
                                     <img
                                         src={rating.album.strAlbumThumb}
                                         alt={rating.album.strAlbum}
                                         className="w-full h-full object-cover rounded-sm"
                                     />
                                     <div
-                                        className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-1 text-center pointer-events-none">
+                                        className="absolute inset-0 bg-slate-900/80 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-1 text-center pointer-events-none">
                                         <p className="text-[10px] font-bold text-white leading-tight truncate w-full">{rating.album.strAlbum}</p>
-                                        <p className="text-[10px] text-gray-300">{rating.score}</p>
+                                        <p className="text-[10px] text-slate-300">{rating.score}</p>
                                     </div>
                                 </div>
                             ))}
                             {tieredRatings[tier.label].length === 0 && (
-                                <span className="text-gray-600 italic text-sm ml-2">No albums</span>
+                                <span className="text-slate-500 italic text-sm ml-2">No albums</span>
                             )}
                         </div>
                     </div>
                 ))}
             </div>
             <div className="flex justify-center mt-8">
-            {!friendCode && (
-                <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mb-10 rounded focus:outline-none focus:shadow-outline w-96 h-12 text-2xl"
-                    onClick={() => window.location.href = `/artist/${id}`}>
-                    Edit Ratings
-                </button>
-            )}
+                {!friendCode && (
+                    <button
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mb-10 rounded focus:outline-none focus:shadow-outline w-96 h-12 text-2xl"
+                        onClick={() => window.location.href = `/artist/${id}`}>
+                        Edit Ratings
+                    </button>
+                )}
             </div>
         </div>
     );

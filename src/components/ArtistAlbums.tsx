@@ -80,38 +80,38 @@ export default function ArtistAlbums() {
 
     return (
         <div className="container mx-auto p-4">
-            <h2 className="text-6xl font-bold mb-3 text-center mt-5">{albums[0].strArtist} Albums</h2>
+            <h2 className="text-6xl font-bold mb-3 text-center mt-5 text-gray-900 dark:text-slate-100">{albums[0].strArtist} Albums</h2>
 
-            {error && <p className="text-red-500">{error}</p>}
+            {error && <p className="text-red-500 dark:text-red-400">{error}</p>}
 
             <div className="flex justify-center mt-3">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
                     {albums.map((album) => {
                         const albumRating = ratings.find(r => r.albumId === album.strMusicBrainzID)?.score || 0;
 
-                        let bgColor = "bg-gray-200";
+                        let bgColor = "bg-gray-100 dark:bg-slate-800";
                         if (albumRating > 0) {
-                            bgColor = albumRating >= 6 ? "bg-green-300" : "bg-red-300";
+                            bgColor = albumRating >= 6 ? "bg-green-100 dark:bg-green-900/40" : "bg-red-100 dark:bg-red-900/40";
                         }
                         if (albumRating == 10) {
-                            bgColor = "bg-yellow-300";
+                            bgColor = "bg-yellow-100 dark:bg-yellow-900/40";
                         }
 
                         return (
                             <div
                                 key={album.strMusicBrainzID}
-                                className={`relative rounded-lg shadow-md overflow-hidden hover:shadow-xl transition ${bgColor}`}
+                                className={`relative rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all border border-transparent dark:border-slate-700/50 ${bgColor}`}
                             >
                                 <button
                                     onClick={() => removeAlbum(album.strMusicBrainzID)}
-                                    className="absolute top-2 right-2 z-10 bg-white/80 hover:bg-red-500 hover:text-white text-red-600 rounded-full w-6 h-6 flex items-center justify-center font-bold shadow-sm transition-colors cursor-pointer"
+                                    className="absolute top-2 right-2 z-10 bg-white/90 dark:bg-slate-700/90 hover:bg-red-500 hover:text-white dark:hover:bg-red-600 text-red-600 dark:text-red-400 rounded-full w-7 h-7 flex items-center justify-center font-bold shadow-sm transition-colors cursor-pointer"
                                     aria-label="Remove album"
                                 >
                                     &times;
                                 </button>
                                 <div className="p-4">
-                                    <h3 className="font-bold text-lg truncate">{album.strAlbum}</h3>
-                                    <p className="text-gray-500">{album.intYearReleased}</p>
+                                    <h3 className="font-bold text-lg truncate text-gray-900 dark:text-slate-100">{album.strAlbum}</h3>
+                                    <p className="text-gray-500 dark:text-slate-400">{album.intYearReleased}</p>
                                 </div>
 
                                 <div className="relative w-full h-64 overflow-hidden">
@@ -122,7 +122,7 @@ export default function ArtistAlbums() {
                                     />
                                     {/* Horizontal Rating Bar - Over the image */}
                                     <div className="absolute bottom-2 left-0 right-0 flex justify-center z-10">
-                                        <div className="bg-black/40 backdrop-blur-sm rounded-full px-2 py-0.5">
+                                        <div className="bg-black/60 backdrop-blur-md rounded-full px-3 py-1 shadow-lg">
                                             <StarRating
                                                 value={albumRating}
                                                 onChange={(rating) =>
@@ -139,7 +139,7 @@ export default function ArtistAlbums() {
                                     <div className="group flex items-center justify-center gap-3">
                                         {albumRating > 0 && (
                                             <span
-                                                className="text-lg font-bold text-gray-800 bg-white/80 border border-black/10 rounded-full px-4 py-1 shadow-sm transition"
+                                                className="text-lg font-bold text-gray-800 dark:text-slate-100 bg-white/90 dark:bg-slate-700 border border-black/10 dark:border-white/10 rounded-full px-4 py-1 shadow-sm transition"
                                                 aria-label={`Selected rating ${albumRating} out of 10`}
                                             >
                                                 {albumRating} / 10

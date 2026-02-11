@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+/* Tailwind v4: enable class-based dark mode variants */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Optional: make the whole app follow the theme by default */
+html,
+body {
+  @apply bg-white text-gray-900 dark:bg-slate-900 dark:text-slate-100;
+}
