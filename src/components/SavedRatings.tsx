@@ -14,7 +14,7 @@ const TIER_CONFIG = [
 ];
 
 export default function SavedRatings() {
-    const {id, friendCode} = useParams<{ id: string, friendCode?: string }>();
+    const {id, friendCode, displayName} = useParams<{ id: string, friendCode?: string, displayName?: string }>();
     const [ratings, setRatings] = useState<SavedRatingsDto[]>([]);
     const [error, setError] = useState<string | null>(null);
 
@@ -71,8 +71,12 @@ export default function SavedRatings() {
 
     return (
         <div className="container mx-auto p-4">
-            <h2 className="text-3xl font-bold mb-8 text-center text-gray-900 dark:text-slate-100">{ratings[0].displayName}'s {ratings[0].album.strArtist} Ratings</h2>
-
+            {friendCode && (
+                <h2 className="text-3xl font-bold mb-8 text-center text-gray-900 dark:text-slate-100">${displayName}'s {ratings[0].album.strArtist} Ratings</h2>
+            )}
+            {!friendCode && (
+                <h2 className="text-3xl font-bold mb-8 text-center text-gray-900 dark:text-slate-100">Your {ratings[0].album.strArtist} Ratings</h2>
+            )}
             <div className="flex flex-col gap-2 bg-slate-950/40 p-2 rounded-lg border border-slate-800/50 shadow-inner">
                 {TIER_CONFIG.map((tier) => (
                     <div key={tier.label} className="flex min-h-30 bg-slate-800/80 rounded-sm overflow-hidden border border-slate-700/30">

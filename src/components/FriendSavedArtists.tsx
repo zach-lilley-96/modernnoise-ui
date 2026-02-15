@@ -6,7 +6,7 @@ import {Link, useParams} from "react-router-dom";
 import fetchFriendSavedArtists from "../helpers/fetchFriendSavedArtists.ts";
 
 export default function FriendSavedArtists() {
-    const {friendCode} = useParams<{friendCode: string}>();
+    const {friendCode, displayName} = useParams<{friendCode: string, displayName: string}>();
     const [artists, setArtists] = useState<ArtistDto[]>([]);
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
@@ -48,7 +48,7 @@ export default function FriendSavedArtists() {
 
     return (
         <div className="container mx-auto p-4">
-            <h2 className="text-3xl font-bold mb-8 text-center text-gray-900 dark:text-slate-100">Saved Artists</h2>
+            <h2 className="text-3xl font-bold mb-8 text-center text-gray-900 dark:text-slate-100"> ${displayName}'s Saved Artists</h2>
 
             {artists.length === 0 ? (
                 <p className="text-gray-500 dark:text-slate-400 text-center">No saved artists found.</p>
@@ -58,7 +58,7 @@ export default function FriendSavedArtists() {
                         {artists.map((artist) => (
                                 <Link
                                     key={artist.strMusicBrainzID}
-                                    to={`/friends/${friendCode}/artists/${artist.strMusicBrainzID}`}
+                                    to={`/friends/${friendCode}/artists/${artist.strMusicBrainzID}/${displayName}`}
                                     className="block rounded-xl shadow-md overflow-hidden hover:shadow-xl transition bg-white dark:bg-slate-800 border border-transparent dark:border-slate-700/50"
                                 >
                                 <div className="w-full h-64 overflow-hidden">

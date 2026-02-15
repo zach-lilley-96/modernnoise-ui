@@ -2,30 +2,40 @@ import {useEffect, useState} from "react";
 import type {ArtistDto} from "../types/ArtistDto.ts";
 import {Link} from "react-router-dom";
 import fetchSavedArtists from "../helpers/fetchSavedArtists.ts";
+import fetchSearchPage from "../helpers/fetchSearchPage.ts";
 
 export default function SavedArtists() {
     const [artists, setArtists] = useState<ArtistDto[]>([]);
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [error, setError] = useState<string | null>(null);
+    const [searchQuery, setSearchQuery] = useState("");
     const pageSize = 12;
 
     useEffect(() => {
         async function fetchRequest() {
-                fetchSavedArtists(page, pageSize)
-                    .then(data => {
-                        setArtists(data.content);
-                        setTotalPages(data.totalPages);
-                    })
-                    .catch(err => {
-                        console.error("Error fetching saved artists:", err);
-                        setError("Failed to load saved artists.");
-                    });
+            const fetchPromise = searchQuery.trim() !== ""
+                ? fetchSearchPage(searchQuery, page, pageSize)
+                : fetchSavedArtists(page, pageSize);
 
+            fetchPromise
+                .then(data => {
+                    setArtists(data.content);
+                    setTotalPages(data.totalPages);
+                })
+                .catch(err => {
+                    console.error("Error fetching artists:", err);
+                    setError("Failed to load artists.");
+                });
         }
 
         fetchRequest();
-    }, [page]);
+    }, [page, searchQuery]);
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(e.target.value);
+        setPage(0); // Reset to first page on new search
+    };
 
     if (error) {
         return (
@@ -35,20 +45,25 @@ export default function SavedArtists() {
         );
     }
 
-    if (artists.length === 0) {
-        return (
-            <div className="container mx-auto p-4 text-center">
-                <p className="text-gray-500">No saved artists found.</p>
-            </div>
-        );
-    }
 
     return (
         <div className="container mx-auto p-4">
             <h2 className="text-3xl font-bold mb-8 text-center text-gray-900 dark:text-slate-100">Saved Artists</h2>
 
+            <div className="mb-8 max-w-md mx-auto">
+                <input
+                    type="text"
+                    placeholder="Search saved artists..."
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                    className="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                />
+            </div>
+
             {artists.length === 0 ? (
-                <p className="text-gray-500 dark:text-slate-400 text-center">No saved artists found.</p>
+                <p className="text-gray-500 dark:text-slate-400 text-center">
+                    {searchQuery.trim() !== "" ? "No artists found matching your search." : "No saved artists found."}
+                </p>
             ) : (
                 <>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

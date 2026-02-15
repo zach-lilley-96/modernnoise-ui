@@ -10,6 +10,7 @@ export default function ArtistAlbums() {
     const navigate = useNavigate();
     const {id} = useParams<{ id: string }>();
     const [albums, setAlbums] = useState<AlbumDto[]>([]);
+    const [removedAlbums, setRemovedAlbums] = useState<AlbumDto[]>([]);
     const [ratings, setRatings] = useState<RatingDto[]>([]);
     const [error, setError] = useState<string | null>(null);
 
@@ -66,11 +67,23 @@ export default function ArtistAlbums() {
     };
 
     const removeAlbum = (albumId: string) => {
-        setAlbums((prev) => prev.filter((a) => a.strMusicBrainzID !== albumId));
-        setRatings((prev) => prev.filter((r) => r.albumId !== albumId));
+        const albumToRemove = albums.find((a) => a.strMusicBrainzID === albumId);
+        if (albumToRemove) {
+            setRemovedAlbums((prev) => [...prev, albumToRemove]);
+            setAlbums((prev) => prev.filter((a) => a.strMusicBrainzID !== albumId));
+            setRatings((prev) => prev.filter((r) => r.albumId !== albumId));
+        }
     };
 
-    if (albums.length === 0 && !error) {
+    const restoreAlbum = (albumId: string) => {
+        const albumToRestore = removedAlbums.find((a) => a.strMusicBrainzID === albumId);
+        if (albumToRestore) {
+            setAlbums((prev) => [...prev, albumToRestore]);
+            setRemovedAlbums((prev) => prev.filter((a) => a.strMusicBrainzID !== albumId));
+        }
+    };
+
+    if (albums.length === 0 && removedAlbums.length === 0 && !error) {
         return (
             <div className="container mx-auto p-4 text-center">
                 <p className="text-gray-500">No albums found for this artist.</p>
@@ -80,7 +93,9 @@ export default function ArtistAlbums() {
 
     return (
         <div className="container mx-auto p-4">
-            <h2 className="text-6xl font-bold mb-3 text-center mt-5 text-gray-900 dark:text-slate-100">{albums[0].strArtist} Albums</h2>
+            <h2 className="text-6xl font-bold mb-3 text-center mt-5 text-gray-900 dark:text-slate-100">
+                {albums.length > 0 ? albums[0].strArtist : (removedAlbums.length > 0 ? removedAlbums[0].strArtist : 'Artist')} Albums
+            </h2>
 
             {error && <p className="text-red-500 dark:text-red-400">{error}</p>}
 
@@ -155,11 +170,45 @@ export default function ArtistAlbums() {
             <div className="flex justify-center mt-8">
                 <button
                     onClick={submitRatings}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mb-10 rounded focus:outline-none focus:shadow-outline w-96 h-12 text-2xl"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mb-10 rounded focus:outline-none focus:shadow-outline w-96 h-12 text-2xl cursor-pointer"
                 >
                     Submit Ratings
                 </button>
             </div>
+
+            {removedAlbums.length > 0 && (
+                <div className="mt-12 border-t border-gray-300 dark:border-slate-700 pt-8">
+                    <h3 className="text-3xl font-bold mb-6 text-center text-gray-500 dark:text-slate-400">Removed Albums</h3>
+                    <div className="flex justify-center">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                            {removedAlbums.map((album) => (
+                                <div
+                                    key={album.strMusicBrainzID}
+                                    className="relative rounded-lg shadow-sm overflow-hidden border border-gray-200 dark:border-slate-800 bg-gray-50 dark:bg-slate-900 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all"
+                                >
+                                    <button
+                                        onClick={() => restoreAlbum(album.strMusicBrainzID)}
+                                        className="absolute top-1 right-1 z-10 bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold shadow-md hover:bg-green-600 transition-colors cursor-pointer"
+                                        aria-label="Restore album"
+                                    >
+                                        +
+                                    </button>
+                                    <div className="p-2">
+                                        <h4 className="font-bold text-sm truncate text-gray-700 dark:text-slate-300">{album.strAlbum}</h4>
+                                    </div>
+                                    <div className="relative w-full h-32 overflow-hidden">
+                                        <img
+                                            src={album.strAlbumThumb}
+                                            alt={album.strAlbum}
+                                            className="object-cover w-full h-full"
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

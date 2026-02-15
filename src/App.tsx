@@ -51,7 +51,7 @@ function App() {
                     </ProtectedRoute>
                 }/>
 
-                <Route path='/friends/:friendCode/artists/:id' element={
+                <Route path='/friends/:friendCode/artists/:id/:displayName' element={
                     <ProtectedRoute>
                         <SavedRatings/>
                     </ProtectedRoute>
