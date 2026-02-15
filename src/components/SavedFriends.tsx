@@ -2,6 +2,7 @@ import { type JSX, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import fetchFriends from '../helpers/fetchFriends';
 import fetchNewFriendCode from '../helpers/fetchNewFriendCode';
+import removeFriend from '../helpers/removeFriend';
 import type { FriendDto } from '../types/FriendDto';
 import FriendCodeInput from "./FriendCodeInput.tsx";
 
@@ -34,6 +35,21 @@ export default function SavedFriends(): JSX.Element {
       setError("Failed to get friend code");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleRemoveFriend(e: React.MouseEvent, friendCode: string, displayName: string) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (window.confirm(`Are you sure you want to remove ${displayName}?`)) {
+      try {
+        await removeFriend(friendCode);
+        await loadFriends();
+      } catch (err) {
+        console.error("Error removing friend:", err);
+        setError("Failed to remove friend");
+      }
     }
   }
   return (
@@ -105,8 +121,17 @@ export default function SavedFriends(): JSX.Element {
               <Link
                 key={friend.friendCode}
                 to={`/friends/${friend.friendCode}/artists`}
-                className="p-5 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-500/50 transition-all group block"
+                className="p-5 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-500/50 transition-all group block relative"
               >
+                <button
+                  onClick={(e) => handleRemoveFriend(e, friend.friendCode, friend.displayName)}
+                  className="absolute top-2 right-2 p-1 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors z-10"
+                  aria-label="Remove friend"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full flex items-center justify-center font-bold text-xl group-hover:bg-indigo-600 group-hover:text-white transition-colors">
                     {friend.displayName.charAt(0).toUpperCase()}
