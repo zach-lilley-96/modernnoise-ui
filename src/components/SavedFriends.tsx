@@ -120,7 +120,7 @@ export default function SavedFriends(): JSX.Element {
             {friends.map((friend) => (
               <Link
                 key={friend.friendCode}
-                to={`/friends/${friend.friendCode}/artists/${friend.displayName}`}
+                to={`/friends/${friend.friendCode}/${friend.displayName}/artists`}
                 className="p-5 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-500/50 transition-all group block relative"
               >
                 <button

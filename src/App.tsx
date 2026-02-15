@@ -57,7 +57,7 @@ function App() {
                     </ProtectedRoute>
                 }/>
 
-                <Route path='/friends/:friendCode/artists' element={
+                <Route path='/friends/:friendCode/:displayName/artists' element={
                     <ProtectedRoute>
                         <FriendSavedArtists/>
                     </ProtectedRoute>
