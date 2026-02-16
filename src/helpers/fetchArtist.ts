@@ -1,4 +1,5 @@
 import { redirect } from "react-router";
+import type {ArtistDto} from "../types/ArtistDto.ts";
 
 export async function getArtists(artistName: string) {
   const response = await fetch(`${import.meta.env.VITE_API_BASE_URI}search/artist/
@@ -8,7 +9,7 @@ ${encodeURIComponent(artistName)}`, {
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
-  return response.json();
+  return await response.json() as ArtistDto[];
 }
 
 export async function getAlbumsByArtist(artistId: string) {
