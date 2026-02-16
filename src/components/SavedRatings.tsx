@@ -72,7 +72,7 @@ export default function SavedRatings() {
     return (
         <div className="container mx-auto p-4">
             {friendCode && (
-                <h2 className="text-3xl font-bold mb-8 text-center text-gray-900 dark:text-slate-100">${displayName}'s {ratings[0].album.strArtist} Ratings</h2>
+                <h2 className="text-3xl font-bold mb-8 text-center text-gray-900 dark:text-slate-100">{displayName}'s {ratings[0].album.strArtist} Ratings</h2>
             )}
             {!friendCode && (
                 <h2 className="text-3xl font-bold mb-8 text-center text-gray-900 dark:text-slate-100">Your {ratings[0].album.strArtist} Ratings</h2>
